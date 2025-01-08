@@ -2,9 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import gol from "./gol"
 
 function App() {
   const [count, setCount] = useState(0)
+  const gameOfLife = gol();
+  console.log(gameOfLife.getCells());
+  gameOfLife.next();
+  console.log(gameOfLife.getCells());
 
   return (
     <>
