@@ -3,11 +3,17 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import gol from "./gol"
+import Point from './point'
 
 function App() {
   const [count, setCount] = useState(0)
   const gameOfLife = gol();
-  console.log(gameOfLife.getCells());
+
+  let tp1 = new Point(0,0);
+  let tp2 = new Point(-1,0);
+  let tp3 = new Point(1,0);
+
+  gameOfLife.preLoadPoints([tp1,tp2,tp3]);
   gameOfLife.next();
   console.log(gameOfLife.getCells());
 

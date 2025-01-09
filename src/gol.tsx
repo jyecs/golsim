@@ -1,28 +1,9 @@
+import Point from "./point";
 function Gol() {
-    class Point {
-        x: number;
-        y: number;
-
-        constructor(x: number, y: number) {
-            this.x = x;
-            this.y = y;
-        }
-
-        toStringKey() {
-            return `${this.x} ${this.y}`;
-        }
-    }
 
     // Current generation of living cells
     // Uses a hashmap since I want this to eventually become an infinite grid
     const livingCells = new Set<String>();
-    const test1 = new Point(0,-1);
-    const test2 = new Point(0,0);
-    const test3 = new Point(0,1);
-
-    livingCells.add(test1.toStringKey());
-    livingCells.add(test2.toStringKey());
-    livingCells.add(test3.toStringKey());
 
 
     // TODO: advances the generation of the next step in GoL
