@@ -14,7 +14,5 @@ body {
 }
 
 canvas {
-  border-style: solid;
-  border-color: blue;
   box-shadow: none;
 }

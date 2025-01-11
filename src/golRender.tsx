@@ -11,6 +11,7 @@ const Renderer = () => {
         const ctx = canvas.getContext("2d");
 
         drawGrid(ctx);
+        drawCell(ctx, 500, 250);
 
 
 
@@ -21,18 +22,29 @@ const Renderer = () => {
         const width = 1000;
         const height  = 800;
         const padding = 5;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "grey";
         for (let x = 0; x <= width; x += 10) {
+            ctx.beginPath();
             ctx.moveTo(x, 0);
             ctx.lineTo(x, height);
+            ctx.closePath();
+            ctx.stroke();
         }
 
-        for (let y = 0; y < height; y+= 10) {
+        for (let y = 0; y <= height; y+= 10) {
+            ctx.beginPath();
             ctx.moveTo(0, y);
             ctx.lineTo(width, y)
+            ctx.closePath();
+            ctx.stroke()
         }
-        ctx.lineWidth = 2;
+    }
+
+    const drawCell = (ctx, x, y) => {
         ctx.strokeStyle = "black";
-        ctx.stroke();
+        ctx.fillStyle = "green";
+        ctx.fillRect(x+0.6,y+0.6,8.3,8.3);
     }
 
     return(
