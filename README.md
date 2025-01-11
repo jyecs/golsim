@@ -1,2 +1,8 @@
 # Game of Life Simulator
-Work in Progress: Getting a functional console working version up.
+Console version only Game of Life working.
+Canvas grid semi-functional.
+
+WIP:
+- reduce blurriness of lines of the canvas (suspected culprit is that the canvas dimensions are being scaled to fit something)
+- make cells line up with with canvas better.
+- connect renderer to the game.
