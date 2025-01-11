@@ -17,8 +17,7 @@ const Renderer = () => {
 
     },[])
     // 1000,800 grid
-    // what type is a canvas context???
-    const drawGrid = (ctx) => {
+    const drawGrid = (ctx: CanvasRenderingContext2D) => {
         const width = 1000;
         const height  = 800;
         const padding = 5;
@@ -41,7 +40,7 @@ const Renderer = () => {
         }
     }
 
-    const drawCell = (ctx, x, y) => {
+    const drawCell = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
         ctx.strokeStyle = "black";
         ctx.fillStyle = "green";
         ctx.fillRect(x+0.6,y+0.6,8.3,8.3);
