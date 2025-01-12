@@ -1,10 +1,12 @@
 import React from "react";
 import "./App.css"
 import { useRef, useEffect } from "react";
+import Point from "./point";
 
-const Renderer = () => {
+const Renderer = ({ cells }) => {
 
     const canvasRef = useRef(null);
+    let gridIsDrawn = false;
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -18,18 +20,19 @@ const Renderer = () => {
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
 
-        drawGrid(ctx);
-        drawCell(ctx, 0, 0);
-        drawCell(ctx, 1, 2);
-        drawCell(ctx, 3, 4);
+        drawGrid(ctx, width, height);
+        cells.forEach((cell: String) => {
+            const coords = cell.split(" ");
+            const x = Number.parseInt(coords[0]);
+            const y = Number.parseInt(coords[1]);
 
+            drawCell(ctx,x,y);
+        })
+        console.log("Effect was called!")
 
-
-    },[])
+    },[cells]);
     // 1000,800 grid
-    const drawGrid = (ctx: CanvasRenderingContext2D) => {
-        const width = 1040;
-        const height  = 840;
+    const drawGrid = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
         const padding = 10;
 
         ctx.lineWidth = 1;
@@ -49,8 +52,10 @@ const Renderer = () => {
             ctx.closePath();
             ctx.stroke()
         }
+        gridIsDrawn = true;
     }
 
+    // Make sure that this is change later such that the cells draw okay.
     const drawCell = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
         ctx.fillStyle = "green";
         const scaleFactor = 20;
