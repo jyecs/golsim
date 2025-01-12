@@ -54,7 +54,7 @@ const Renderer = () => {
     const drawCell = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
         ctx.fillStyle = "green";
         const scaleFactor = 20;
-        ctx.fillRect((x * scaleFactor) + 10,(y * scaleFactor) + 10,20,20);
+        ctx.fillRect((x * scaleFactor) + 11,(y * scaleFactor) + 11,18,18);
     }
 
     return(
