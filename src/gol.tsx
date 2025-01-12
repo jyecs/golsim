@@ -9,6 +9,7 @@ function Gol() {
     // TODO: advances the generation of the next step in GoL
     const next = () => { 
         const deltaGeneration = new Map<String, number>();
+        const changeInGeneration = new Map<String, Boolean>();
         livingCells.forEach((key: String) => {
             let neighbors = getNeighbors(key);
             computeNeighbors(deltaGeneration, neighbors);
@@ -17,10 +18,14 @@ function Gol() {
         deltaGeneration.forEach((numNeighbors: number, cell: String) => {
             if (numNeighbors < 2 || numNeighbors > 3) {
                 livingCells.delete(cell);
+                changeInGeneration.set(cell, false);
             } else if (numNeighbors === 3) {
                 livingCells.add(cell);
+                changeInGeneration.set(cell, true);
             }
         })
+
+        return changeInGeneration;
     };
 
     const computeNeighbors = (gen: Map<String, number>, neighbors: Array<Array<number>>) => {
