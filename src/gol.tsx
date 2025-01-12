@@ -16,6 +16,7 @@ function Gol() {
         });
 
         deltaGeneration.forEach((numNeighbors: number, cell: String) => {
+            console.log(`${cell} ${numNeighbors}`)
             if (numNeighbors < 2 || numNeighbors > 3) {
                 livingCells.delete(cell);
                 changeInGeneration.set(cell, false);
@@ -49,13 +50,11 @@ function Gol() {
             for (let j = -1; j <= 1; j++) {
                 if (!(i === 0 && j === 0)) {
                     neighbors.push([x+i,y+j]);
-                    console.log(`${x+ i} ${y + j}`);
                     if (livingCells.has(`${x + i} ${y + j}`)) { numNeighbors++ };
                 }
             }
         }
         if (numNeighbors === 0) { changeInNeighbors.set(cell, false)}
-        console.log(`${cell} has ${numNeighbors} neighbors`);
         return neighbors;
     }
 

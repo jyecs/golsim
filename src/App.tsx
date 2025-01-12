@@ -36,12 +36,12 @@ function App() {
 
     drawGrid(ctx, width, height);
     cells.forEach((cell: String) => {
-        const coords = cell.split(" ");
-        const x = Number.parseInt(coords[0]);
-        const y = Number.parseInt(coords[1]);
         drawCell(ctx,cell,true);
     })
-    drawCell(ctx,"21 13", true);
+    ctx.fillStyle = "red";
+
+    const scaleFactor = 20;
+    ctx.fillRect((25 * scaleFactor) + 11,(16 * scaleFactor) + 11,18,18)
 
   },[cells]);
   // 1000,800 grid
@@ -83,16 +83,17 @@ function App() {
     }
   }
 
-  let tp1 = new Point(20,15);
-  let tp2 = new Point(21,15);
-  let tp3 = new Point(21,13);
-  let tp4 = new Point(23,14);
-  let tp5 = new Point(24,15);
+  let tp1 = new Point(20,14);
+  let tp2 = new Point(21,14);
+  let tp3 = new Point(22,14);
+  let tp4 = new Point(25,14);
+  let tp5 = new Point(26,14);
   let tp6 = new Point(25,15);
   let tp7 = new Point(26,15);
+  let tp8 = new Point(26,16);
 
 
-  gameOfLife.preLoadPoints([tp1,tp2,tp3,tp4,tp5,tp6,tp7]);
+  gameOfLife.preLoadPoints([tp1,tp2,tp3,tp4,tp5,tp6,tp7,tp8]);
 
   return (
     <>
