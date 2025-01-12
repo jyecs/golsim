@@ -19,7 +19,9 @@ const Renderer = () => {
         canvas.style.height = `${height}px`;
 
         drawGrid(ctx);
-        drawCell(ctx, 1000, 800);
+        drawCell(ctx, 0, 0);
+        drawCell(ctx, 1, 2);
+        drawCell(ctx, 3, 4);
 
 
 
@@ -51,7 +53,8 @@ const Renderer = () => {
 
     const drawCell = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
         ctx.fillStyle = "green";
-        ctx.fillRect(x - 10,y - 10,20,20);
+        const scaleFactor = 20;
+        ctx.fillRect((x * scaleFactor) + 10,(y * scaleFactor) + 10,20,20);
     }
 
     return(
