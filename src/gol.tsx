@@ -9,9 +9,9 @@ function Gol() {
     // TODO: advances the generation of the next step in GoL
     const next = () => { 
         const deltaGeneration = new Map<String, number>();
-        const changeInGeneration = new Map<String, Boolean>();
+        const changeInGeneration = new Map<String, boolean>();
         livingCells.forEach((key: String) => {
-            let neighbors = getNeighbors(key);
+            let neighbors = getNeighbors(key, changeInGeneration);
             computeNeighbors(deltaGeneration, neighbors);
         });
 
@@ -39,16 +39,23 @@ function Gol() {
         })
     }
 
-    const getNeighbors = (cell: String) => {
+    const getNeighbors = (cell: String, changeInNeighbors: Map<String, boolean>) => {
         const neighbors = [];
         const coords = cell.split(" ");
+        const x = Number.parseInt(coords[0]);
+        const y = Number.parseInt(coords[1]);
+        let numNeighbors = 0;
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
                 if (!(i === 0 && j === 0)) {
-                    neighbors.push([parseInt(coords[0]) + i, parseInt(coords[1]) + j]);
+                    neighbors.push([x+i,y+j]);
+                    console.log(`${x+ i} ${y + j}`);
+                    if (livingCells.has(`${x + i} ${y + j}`)) { numNeighbors++ };
                 }
             }
         }
+        if (numNeighbors === 0) { changeInNeighbors.set(cell, false)}
+        console.log(`${cell} has ${numNeighbors} neighbors`);
         return neighbors;
     }
 

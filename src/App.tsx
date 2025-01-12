@@ -41,6 +41,7 @@ function App() {
         const y = Number.parseInt(coords[1]);
         drawCell(ctx,cell,true);
     })
+    drawCell(ctx,"21 13", true);
 
   },[cells]);
   // 1000,800 grid
@@ -82,19 +83,16 @@ function App() {
     }
   }
 
-  let tp1 = new Point(5,5);
-  let tp2 = new Point(5,4);
-  let tp3 = new Point(5,3);
-
-  let tp4 = new Point(10,10);
-  let tp5 = new Point(11,10);
-  let tp6 = new Point(12,10);
-  let tp7 = new Point(11,11);
-  let tp8 = new Point(12,11);
-  let tp9 = new Point(13,11);
+  let tp1 = new Point(20,15);
+  let tp2 = new Point(21,15);
+  let tp3 = new Point(21,13);
+  let tp4 = new Point(23,14);
+  let tp5 = new Point(24,15);
+  let tp6 = new Point(25,15);
+  let tp7 = new Point(26,15);
 
 
-  gameOfLife.preLoadPoints([tp1,tp2,tp3,tp4,tp5,tp6,tp7,tp8,tp9]);
+  gameOfLife.preLoadPoints([tp1,tp2,tp3,tp4,tp5,tp6,tp7]);
 
   return (
     <>
