@@ -99,7 +99,7 @@ function App() {
   return (
     <>
       <canvas height="840" width="1040" ref={canvasRef}></canvas>
-      <button onClick = {nextGeneration}></button>
+      <button onClick = {nextGeneration}>Next</button>
     </>
   )
 }
