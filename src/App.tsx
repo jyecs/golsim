@@ -36,20 +36,23 @@ function App() {
     let tp5 = new Point(24,14);
     let tp6 = new Point(25,14);
     let tp7 = new Point(26,14);
-  
-  
-    gameOfLife.preLoadPoints([tp1,tp2,tp3,tp4,tp5,tp6,tp7]);
+
+    drawBoard([tp1,tp2,tp3,tp4,tp5,tp6,tp7],ctx, width, height);
+
+  },[]);
+
+  const toggleDrawing = ()=> {
+    setIsRunning(!isRunning);
+  }
+
+  const drawBoard = (points: Array<Point>, ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    gameOfLife.preLoadPoints(points);
     const cells = gameOfLife.getCells();
 
     drawGrid(ctx, width, height);
     cells.forEach((cell: String) => {
         drawCell(ctx,cell,true);
     })
-
-  },[]);
-
-  const toggleDrawing = ()=> {
-    setIsRunning(!isRunning);
   }
 
   useEffect(()=> {
@@ -87,6 +90,30 @@ function App() {
       }
   }
 
+  const resetBoard = () => {
+    let tp1 = new Point(20,14);
+    let tp2 = new Point(21,14);
+    let tp3 = new Point(21,12);
+    let tp4 = new Point(23,13);
+    let tp5 = new Point(24,14);
+    let tp6 = new Point(25,14);
+    let tp7 = new Point(26,14);
+    const canvas = canvasRef.current;
+    const width = canvas.width;
+    const height = canvas.height;
+    gameOfLife.clear();
+    resetCells();
+    drawBoard([tp1,tp2,tp3,tp4,tp5,tp6,tp7],ctx, width, height);
+  }
+
+  const resetCells = () => {
+    for (let x = 0; x < 50; x++) {
+      for (let y = 0; y < 40; y++) {
+        drawCell(ctx,`${x} ${y}`,false);
+      }
+    }
+  }
+
   // Make sure that this is change later such that the cells draw okay.
   const drawCell = (ctx: CanvasRenderingContext2D, cell: String, type: Boolean) => {
     const coords = cell.split(" ");
@@ -110,6 +137,7 @@ function App() {
       <canvas height="840" width="1040" ref={canvasRef}></canvas>
       <button onClick = {nextGeneration}>Next</button>
       <button onClick = {toggleDrawing}>Toggle</button>
+      <button onClick = {resetBoard}>Reset</button>
     </>
   )
 }

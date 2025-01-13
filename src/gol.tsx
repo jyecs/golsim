@@ -69,9 +69,18 @@ function Gol() {
             livingCells.add(point.toStringKey());
         })
     }
+
+    const addPoint = (point: Point) => {
+        livingCells.add(point.toStringKey());
+    }
+
+    const clear = () => {
+        livingCells.clear();
+    }
+
     const getCells = () => { return livingCells };
 
-    return {next, getCells, preLoadPoints};
+    return {next, getCells, preLoadPoints, clear, addPoint};
 
 };
 export default Gol
