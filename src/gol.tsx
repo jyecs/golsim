@@ -4,6 +4,7 @@ function Gol() {
     // Current generation of living cells
     // Uses a hashmap since I want this to eventually become an infinite grid
     const livingCells = new Set<String>();
+    const stragglers = new Set<String>();
 
 
     // TODO: advances the generation of the next step in GoL
@@ -25,6 +26,11 @@ function Gol() {
                 changeInGeneration.set(cell, true);
             }
         })
+        stragglers.forEach((cell: String) => {
+            livingCells.delete(cell);
+        })
+
+        stragglers.clear();
 
         return changeInGeneration;
     };
@@ -54,7 +60,7 @@ function Gol() {
                 }
             }
         }
-        if (numNeighbors === 0) { changeInNeighbors.set(cell, false)}
+        if (numNeighbors === 0) { changeInNeighbors.set(cell, false); stragglers.add(cell); }
         return neighbors;
     }
 
