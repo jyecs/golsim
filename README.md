@@ -8,10 +8,11 @@ Done'd:
 - connect renderer to the game.
 - Rewrite GoL to produce a set of changes to make instead of returning a set of live cells.
 - Fix GoL Algo (Fix: deleting cells that have no neighbors and therefore not caught by the cells that are scanning around it)
-
-WIP:
-- Stylize game (Just write some basic CSS)
 - Make it so that the game can automatically run.
 - Add buttons for pause and start
 - (Less) Improve GoL algo so that it discards points that are too far away from the board (finite pruning of cells);
+
+WIP:
+- Stylize game (Just write some basic CSS)
+- (Less) Presets for some special starting cell arangments
 - Add clicking the canvas can add cells to the canvas.
