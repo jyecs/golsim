@@ -9,7 +9,6 @@ function Gol() {
 
     // TODO: advances the generation of the next step in GoL
     const next = () => { 
-        console.log(livingCells);
         const deltaGeneration = new Map<String, number>();
         const changeInGeneration = new Map<String, boolean>();
         livingCells.forEach((key: String) => {
@@ -66,8 +65,6 @@ function Gol() {
     }
 
     const preLoadPoints = (points: Array<Point>) => {
-        console.log("Points loaded");
-        console.log(points);
         points.forEach((point: Point) => {
             livingCells.add(point.toStringKey());
         })

@@ -2,6 +2,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: lightblue;
 }
 
 #root {
@@ -14,5 +15,6 @@ body {
 }
 
 canvas {
+  background-color: white;
   box-shadow: none;
 }
