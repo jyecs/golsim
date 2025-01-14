@@ -17,7 +17,6 @@ function Gol() {
         });
 
         deltaGeneration.forEach((numNeighbors: number, cell: string) => {
-            console.log(`${cell} ${numNeighbors}`)
             if (numNeighbors < 2 || numNeighbors > 3) {
                 livingCells.delete(cell);
                 changeInGeneration.set(cell, false);

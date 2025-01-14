@@ -4,9 +4,9 @@ function preset() {
     // Might be a problem to fix.
     const shiftX = 20;
     const shiftY = 20;
-    const presetNames = ["acorn","R-pentomino","Diehard", "Still-lifes", "Oscillators"];
+    const presetNames = ["Acorn","R-pentomino","Diehard", "Still-lifes", "Oscillators"];
     const presets = {
-        "acorn": [
+        "Acorn": [
             [0,0],
             [1,0],
             [1,-2],

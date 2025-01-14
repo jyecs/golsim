@@ -11,12 +11,11 @@ function App() {
   const canvasRef = useRef(null);
   const [isRunning, setIsRunning] = useState(false);
   const [presetGetter, setPresetGetter] = useState(preset());
-  const [currentPreset, setCurrentPreset] = useState(presetGetter.getPreset("Diehard"));
+  const [currentPreset, setCurrentPreset] = useState(presetGetter.getPreset("Acorn"));
 
   const nextGeneration = () => {
     const change = gameOfLife.next();
-    console.log(change);
-    change.forEach((type: Boolean, cell: String) => {
+    change.forEach((type: Boolean, cell: string) => {
       drawCell(ctx, cell, type);
     })
   }
@@ -46,22 +45,21 @@ function App() {
     const cells = gameOfLife.getCells();
 
     drawGrid(ctx, width, height);
-    cells.forEach((cell: String) => {
+    cells.forEach((cell: string) => {
         drawCell(ctx,cell,true);
     })
   }
 
   useEffect(()=> {
     let drawing = null;
-    console.log("called");
     if (isRunning) {
       drawing = setInterval(nextGeneration, 50);
     }
     return () => {
-      if (isRunning) { clearInterval(drawing); }
+      clearInterval(drawing)
     }
 
-  },[isRunning, ctx])
+  },[isRunning])
 
   // 1000,800 grid
   const drawGrid = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
