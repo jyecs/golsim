@@ -11,8 +11,9 @@ Done'd:
 - Make it so that the game can automatically run.
 - Add buttons for pause and start
 - (Less) Improve GoL algo so that it discards points that are too far away from the board (finite pruning of cells);
+- (Less) Presets for some special starting cell arangments
 
 WIP:
 - Stylize game (Just write some basic CSS)
-- (Less) Presets for some special starting cell arangments
 - Add clicking the canvas can add cells to the canvas.
+- Connect presets to a drop down list.
