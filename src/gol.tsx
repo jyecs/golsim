@@ -3,20 +3,20 @@ function Gol() {
 
     // Current generation of living cells
     // Uses a hashmap since I want this to eventually become an infinite grid
-    const livingCells = new Set<String>();
-    const stragglers = new Set<String>();
+    const livingCells = new Set<string>();
+    const stragglers = new Set<string>();
 
 
     // TODO: advances the generation of the next step in GoL
     const next = () => { 
-        const deltaGeneration = new Map<String, number>();
-        const changeInGeneration = new Map<String, boolean>();
-        livingCells.forEach((key: String) => {
+        const deltaGeneration = new Map<string, number>();
+        const changeInGeneration = new Map<string, boolean>();
+        livingCells.forEach((key: string) => {
             let neighbors = getNeighbors(key, changeInGeneration);
             computeNeighbors(deltaGeneration, neighbors);
         });
 
-        deltaGeneration.forEach((numNeighbors: number, cell: String) => {
+        deltaGeneration.forEach((numNeighbors: number, cell: string) => {
             console.log(`${cell} ${numNeighbors}`)
             if (numNeighbors < 2 || numNeighbors > 3) {
                 livingCells.delete(cell);
@@ -26,7 +26,7 @@ function Gol() {
                 changeInGeneration.set(cell, true);
             }
         })
-        stragglers.forEach((cell: String) => {
+        stragglers.forEach((cell: string) => {
             livingCells.delete(cell);
         })
 
@@ -35,7 +35,7 @@ function Gol() {
         return changeInGeneration;
     };
 
-    const computeNeighbors = (gen: Map<String, number>, neighbors: Array<Array<number>>) => {
+    const computeNeighbors = (gen: Map<string, number>, neighbors: Array<Array<number>>) => {
         neighbors.forEach((point: Array<Number>) => {
             const cell = `${point[0]} ${point[1]}`
             if (gen.has(cell)) {
@@ -46,7 +46,7 @@ function Gol() {
         })
     }
 
-    const getNeighbors = (cell: String, changeInNeighbors: Map<String, boolean>) => {
+    const getNeighbors = (cell: string, changeInNeighbors: Map<string, boolean>) => {
         const neighbors = [];
         const coords = cell.split(" ");
         const x = Number.parseInt(coords[0]);

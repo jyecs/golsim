@@ -3,12 +3,15 @@ import './App.css'
 import gol from "./gol"
 import Point from './point'
 import { useRef, useEffect } from 'react'
+import preset from './preset'
 
 function App() {
   const [gameOfLife, setGameOfLife] = useState(gol());
   const [ctx, setCtx] = useState(null);
   const canvasRef = useRef(null);
   const [isRunning, setIsRunning] = useState(false);
+  const [presetGetter, setPresetGetter] = useState(preset());
+  const [currentPreset, setCurrentPreset] = useState(presetGetter.getPreset("Diehard"));
 
   const nextGeneration = () => {
     const change = gameOfLife.next();
@@ -29,15 +32,8 @@ function App() {
     canvas.height = height;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
-    let tp1 = new Point(20,14);
-    let tp2 = new Point(21,14);
-    let tp3 = new Point(21,12);
-    let tp4 = new Point(23,13);
-    let tp5 = new Point(24,14);
-    let tp6 = new Point(25,14);
-    let tp7 = new Point(26,14);
 
-    drawBoard([tp1,tp2,tp3,tp4,tp5,tp6,tp7],ctx, width, height);
+    drawBoard(currentPreset,ctx, width, height);
 
   },[]);
 
@@ -91,23 +87,17 @@ function App() {
   }
 
   const resetBoard = () => {
-    let tp1 = new Point(20,14);
-    let tp2 = new Point(21,14);
-    let tp3 = new Point(21,12);
-    let tp4 = new Point(23,13);
-    let tp5 = new Point(24,14);
-    let tp6 = new Point(25,14);
-    let tp7 = new Point(26,14);
     const canvas = canvasRef.current;
     const width = canvas.width;
     const height = canvas.height;
+    setIsRunning(false);
     gameOfLife.clear();
     resetCells();
-    drawBoard([tp1,tp2,tp3,tp4,tp5,tp6,tp7],ctx, width, height);
+    drawBoard(currentPreset,ctx, width, height);
   }
 
   const resetCells = () => {
-    for (let x = 0; x < 50; x++) {
+    for (let x = 0; x < 51; x++) {
       for (let y = 0; y < 40; y++) {
         drawCell(ctx,`${x} ${y}`,false);
       }
