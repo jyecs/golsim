@@ -22,6 +22,7 @@ function App() {
 
 
   useEffect(() => {
+    console.log("First effect called");
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     setCtx(ctx);
@@ -31,10 +32,44 @@ function App() {
     canvas.height = height;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
-
+    const eventWrapper = (event) => {
+      handleClick(event, ctx);
+    }
+    canvas.addEventListener("click", eventWrapper);
     drawBoard(currentPreset,ctx, width, height);
 
+    return () => {
+      canvas.removeEventListener("click", eventWrapper);
+    }
+
+
   },[]);
+
+  const handleClick = (event, ctx: CanvasRenderingContext2D) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    let x = (event.clientX - rect.left);
+    let y = (event.clientY - rect.top);
+    x = Math.ceil((x - 10)/20) - 1; // Padding = 10, Each cell size = 20, correcting it so that coords are centered at (0,0);
+    y = Math.ceil((y - 10)/20) - 1;
+    handleClickToPoint(x,y,ctx);
+  }
+
+  const handleClickToPoint = (x:number, y:number, ctx: CanvasRenderingContext2D) => {
+    const cell = new Point(x,y);
+    const coords = cell.toStringKey();
+    console.log(cell);
+    console.log(coords);
+    if (gameOfLife.getCells().has(coords)) {
+      console.log("Does not have in GoL");
+      gameOfLife.deletePoint(cell);
+      drawCell(ctx, coords, false);
+    } else {
+      console.log("Does exist in GoL");
+      gameOfLife.addPoint(cell);
+      drawCell(ctx, coords, true);
+    }
+  }
 
   const toggleDrawing = ()=> {
     setIsRunning(!isRunning);

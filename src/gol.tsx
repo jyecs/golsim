@@ -73,13 +73,17 @@ function Gol() {
         livingCells.add(point.toStringKey());
     }
 
+    const deletePoint = (point: Point) => {
+        livingCells.delete(point.toStringKey());
+    }
+
     const clear = () => {
         livingCells.clear();
     }
 
     const getCells = () => { return livingCells };
 
-    return {next, getCells, preLoadPoints, clear, addPoint};
+    return {next, getCells, preLoadPoints, clear, addPoint, deletePoint};
 
 };
 export default Gol
