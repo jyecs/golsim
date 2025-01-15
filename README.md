@@ -18,3 +18,4 @@ WIP:
 - Stylize game (Just write some basic CSS)
 - Connect presets to a drop down list.
 - Make the canvas drawing less hacky (There is a lot of stuff that I think is going on that really shouldn't be).
+- Optimize GoL Algo (Maybe use a real one, or clean up the one that I made)
