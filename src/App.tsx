@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import './App.css'
 import gol from "./gol"
 import Point from './point'
 import { useRef, useEffect } from 'react'
 import preset from './preset'
 import PresetDropdown from './presetDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
 import Button from 'react-bootstrap/Button'
 
 function App() {
@@ -25,7 +25,6 @@ function App() {
 
 
   useEffect(() => {
-    console.log("First effect called");
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     setCtx(ctx);
@@ -72,14 +71,10 @@ function App() {
   const handleClickToPoint = (x:number, y:number, ctx: CanvasRenderingContext2D) => {
     const cell = new Point(x,y);
     const coords = cell.toStringKey();
-    console.log(cell);
-    console.log(coords);
     if (gameOfLife.getCells().has(coords)) {
-      console.log("Does not have in GoL");
       gameOfLife.deletePoint(cell);
       drawCell(ctx, coords, false);
     } else {
-      console.log("Does exist in GoL");
       gameOfLife.addPoint(cell);
       drawCell(ctx, coords, true);
     }
@@ -96,7 +91,6 @@ function App() {
   }
 
   const drawBoard = (points: Array<Point>, ctx: CanvasRenderingContext2D, width: number, height: number) => {
-    console.log("Drawn");
     gameOfLife.preLoadPoints(points);
     const cells = gameOfLife.getCells();
 
@@ -130,14 +124,12 @@ function App() {
   }
 
   const resetBoard = () => {
-    console.log("called");
     const canvas = canvasRef.current;
     const width = canvas.width;
     const height = canvas.height;
     setIsRunning(false);
     gameOfLife.clear();
     resetCells();
-    console.log(presetGetter.getCurrentPreset());
     drawBoard(presetGetter.getCurrentPreset(),ctx, width, height);
   }
 
@@ -168,13 +160,15 @@ function App() {
   }
 
   return (
-    <>
+    <div className='MainContainer'>
       <canvas height="840" width="1040" ref={canvasRef}></canvas>
-      <Button onClick = {nextGeneration}>Next</Button>
-      <Button onClick = {toggleDrawing}>Toggle</Button>
-      <Button onClick = {resetBoard}>Reset</Button>
-      <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect} currPreset={presetName}></PresetDropdown>
-    </>
+      <div>
+        <Button onClick = {nextGeneration}>Next</Button>
+        <Button onClick = {toggleDrawing}>Toggle</Button>
+        <Button onClick = {resetBoard}>Reset</Button>
+        <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect} currPreset={presetName}></PresetDropdown>
+      </div>
+    </div>
   )
 }
 
