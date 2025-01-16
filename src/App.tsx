@@ -4,6 +4,8 @@ import gol from "./gol"
 import Point from './point'
 import { useRef, useEffect } from 'react'
 import preset from './preset'
+import PresetDropdown from './presetDropdown'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   const [gameOfLife, setGameOfLife] = useState(gol());
@@ -80,6 +82,10 @@ function App() {
       gameOfLife.addPoint(cell);
       drawCell(ctx, coords, true);
     }
+  }
+
+  const handleDropdownSelect = (preset: string) => {
+    console.log(preset);
   }
 
   const toggleDrawing = ()=> {
@@ -162,6 +168,7 @@ function App() {
       <button onClick = {nextGeneration}>Next</button>
       <button onClick = {toggleDrawing}>Toggle</button>
       <button onClick = {resetBoard}>Reset</button>
+      <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect}></PresetDropdown>
     </>
   )
 }
