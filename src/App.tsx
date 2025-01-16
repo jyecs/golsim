@@ -45,6 +45,17 @@ function App() {
 
   },[]);
 
+  useEffect(()=> {
+    let drawing = null;
+    if (isRunning) {
+      drawing = setInterval(nextGeneration, 50);
+    }
+    return () => {
+      clearInterval(drawing)
+    }
+
+  },[isRunning])
+
   const handleClick = (event, ctx: CanvasRenderingContext2D) => {
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
@@ -85,16 +96,6 @@ function App() {
     })
   }
 
-  useEffect(()=> {
-    let drawing = null;
-    if (isRunning) {
-      drawing = setInterval(nextGeneration, 50);
-    }
-    return () => {
-      clearInterval(drawing)
-    }
-
-  },[isRunning])
 
   // 1000,800 grid
   const drawGrid = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
