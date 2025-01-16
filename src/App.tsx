@@ -6,6 +6,7 @@ import { useRef, useEffect } from 'react'
 import preset from './preset'
 import PresetDropdown from './presetDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Button from 'react-bootstrap/Button'
 
 function App() {
   const [gameOfLife, setGameOfLife] = useState(gol());
@@ -13,7 +14,7 @@ function App() {
   const canvasRef = useRef(null);
   const [isRunning, setIsRunning] = useState(false);
   const [presetGetter, setPresetGetter] = useState(preset());
-  const [currentPreset, setCurrentPreset] = useState(presetGetter.getPreset("Acorn"));
+  const [presetName, setPresetName] = useState<string>("Acorn")
 
   const nextGeneration = () => {
     const change = gameOfLife.next();
@@ -38,7 +39,7 @@ function App() {
       handleClick(event, ctx);
     }
     canvas.addEventListener("click", eventWrapper);
-    drawBoard(currentPreset,ctx, width, height);
+    drawBoard(presetGetter.getCurrentPreset(),ctx, width, height);
 
     return () => {
       canvas.removeEventListener("click", eventWrapper);
@@ -85,7 +86,9 @@ function App() {
   }
 
   const handleDropdownSelect = (preset: string) => {
-    console.log(preset);
+    setPresetName(preset);
+    presetGetter.setCurrentPreset(preset);
+    resetBoard();
   }
 
   const toggleDrawing = ()=> {
@@ -93,6 +96,7 @@ function App() {
   }
 
   const drawBoard = (points: Array<Point>, ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    console.log("Drawn");
     gameOfLife.preLoadPoints(points);
     const cells = gameOfLife.getCells();
 
@@ -105,35 +109,36 @@ function App() {
 
   // 1000,800 grid
   const drawGrid = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-      const padding = 10;
+    const padding = 10;
 
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = "grey";
-      for (let x = 0; x < width; x += 10 + padding) {
-        ctx.beginPath();
-        ctx.moveTo(x + padding, padding);
-        ctx.lineTo(x + padding, height - padding);
-         ctx.closePath();
-        ctx.stroke();
-      }
-
-      for (let y = 0; y < height; y+= 10 + padding) {
-        ctx.beginPath();
-        ctx.moveTo(padding, y + padding);
-        ctx.lineTo(width - padding, y + padding)
-        ctx.closePath();
-        ctx.stroke()
-      }
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "grey";
+    for (let x = 0; x < width; x += 10 + padding) {
+      ctx.beginPath();
+      ctx.moveTo(x + padding, padding);
+      ctx.lineTo(x + padding, height - padding);
+      ctx.closePath();
+      ctx.stroke();
+    }
+    for (let y = 0; y < height; y+= 10 + padding) {
+      ctx.beginPath();
+      ctx.moveTo(padding, y + padding);
+      ctx.lineTo(width - padding, y + padding)
+      ctx.closePath();
+      ctx.stroke()
+    }
   }
 
   const resetBoard = () => {
+    console.log("called");
     const canvas = canvasRef.current;
     const width = canvas.width;
     const height = canvas.height;
     setIsRunning(false);
     gameOfLife.clear();
     resetCells();
-    drawBoard(currentPreset,ctx, width, height);
+    console.log(presetGetter.getCurrentPreset());
+    drawBoard(presetGetter.getCurrentPreset(),ctx, width, height);
   }
 
   const resetCells = () => {
@@ -165,10 +170,10 @@ function App() {
   return (
     <>
       <canvas height="840" width="1040" ref={canvasRef}></canvas>
-      <button onClick = {nextGeneration}>Next</button>
-      <button onClick = {toggleDrawing}>Toggle</button>
-      <button onClick = {resetBoard}>Reset</button>
-      <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect}></PresetDropdown>
+      <Button onClick = {nextGeneration}>Next</Button>
+      <Button onClick = {toggleDrawing}>Toggle</Button>
+      <Button onClick = {resetBoard}>Reset</Button>
+      <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect} currPreset={presetName}></PresetDropdown>
     </>
   )
 }

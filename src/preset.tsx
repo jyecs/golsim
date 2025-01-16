@@ -53,10 +53,15 @@ function preset() {
         return coordsToPoints;
 
     }
+    let currentPreset = getPreset("Acorn");
+    let currentPresetName = "Acorn";
+
+    const getCurrentPreset = () => { return currentPreset }
+    const setCurrentPreset = (preset: string) => { currentPreset = getPreset(preset) }
 
 
 
-    return { getPreset, listPrests };
+    return { getPreset, listPrests, getCurrentPreset, setCurrentPreset };
 }
 
 export default preset;
