@@ -14,7 +14,7 @@ function App() {
   const canvasRef = useRef(null);
   const [isRunning, setIsRunning] = useState(false);
   const [presetGetter, setPresetGetter] = useState(preset());
-  const [presetName, setPresetName] = useState<string>("Acorn")
+  const [presetName, setPresetName] = useState<string>("Presets")
   const [playButton, setPlayButton] = useState<string>("Start");
 
   const nextGeneration = () => {

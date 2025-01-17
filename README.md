@@ -13,9 +13,9 @@ Done'd:
 - (Less) Improve GoL algo so that it discards points that are too far away from the board (finite pruning of cells);
 - (Less) Presets for some special starting cell arangments
 - Add clicking the canvas can add cells to the canvas.
+- Connect presets to a drop down list.
 
 WIP:
 - Stylize game (Just write some basic CSS)
-- Connect presets to a drop down list.
 - Make the canvas drawing less hacky (There is a lot of stuff that I think is going on that really shouldn't be).
 - Optimize GoL Algo (Maybe use a real one, or clean up the one that I made)

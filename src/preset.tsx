@@ -54,7 +54,6 @@ function preset() {
 
     }
     let currentPreset = getPreset("Acorn");
-    let currentPresetName = "Acorn";
 
     const getCurrentPreset = () => { return currentPreset }
     const setCurrentPreset = (preset: string) => { currentPreset = getPreset(preset) }
