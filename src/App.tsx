@@ -160,9 +160,9 @@ function App() {
   }
 
   return (
-    <div className='MainContainer'>
+    <div className="MainContainer">
       <canvas height="840" width="1040" ref={canvasRef}></canvas>
-      <div>
+      <div className="ControlContainer">
         <Button onClick = {nextGeneration}>Next</Button>
         <Button onClick = {toggleDrawing}>Toggle</Button>
         <Button onClick = {resetBoard}>Reset</Button>

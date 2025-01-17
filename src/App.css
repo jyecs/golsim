@@ -18,6 +18,14 @@ body {
   align-items: center;
 }
 
+.ControlContainer {
+  padding: 10px 10px 10px 10px;
+}
+
+.ControlContainer > *{
+  margin: 10px 10px 10px 10px;
+}
+
 canvas {
   background-color: white;
   box-shadow: none;
