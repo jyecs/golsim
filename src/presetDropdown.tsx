@@ -9,7 +9,7 @@ interface PresetDropdownProps {
 
 const PresetDropdown: React.FC<PresetDropdownProps> = ({presets, onSelect, currPreset}) => {
     return (
-        <DropdownButton id="dropdown-button" title={currPreset}>
+        <DropdownButton size="lg" id="dropdown-button" title={currPreset}>
             {
                 presets.map((preset, idx) => (<Dropdown.Item key={idx} onClick={()=> onSelect(preset)}>{preset}</Dropdown.Item>))
             }

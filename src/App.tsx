@@ -15,6 +15,7 @@ function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [presetGetter, setPresetGetter] = useState(preset());
   const [presetName, setPresetName] = useState<string>("Acorn")
+  const [playButton, setPlayButton] = useState<string>("Start");
 
   const nextGeneration = () => {
     const change = gameOfLife.next();
@@ -50,7 +51,7 @@ function App() {
   useEffect(()=> {
     let drawing = null;
     if (isRunning) {
-      drawing = setInterval(nextGeneration, 50);
+      drawing = setInterval(nextGeneration, 100);
     }
     return () => {
       clearInterval(drawing)
@@ -87,6 +88,7 @@ function App() {
   }
 
   const toggleDrawing = ()=> {
+    (playButton === "Start") ? setPlayButton("Pause") : setPlayButton("Start")
     setIsRunning(!isRunning);
   }
 
@@ -130,12 +132,20 @@ function App() {
     setIsRunning(false);
     gameOfLife.clear();
     resetCells();
+    setPlayButton("Start");
     drawBoard(presetGetter.getCurrentPreset(),ctx, width, height);
+  }
+
+  const clearBoard = () => {
+    gameOfLife.clear();
+    setIsRunning(false);
+    setPlayButton("Start");
+    resetCells();
   }
 
   const resetCells = () => {
     for (let x = 0; x < 51; x++) {
-      for (let y = 0; y < 40; y++) {
+      for (let y = 0; y < 41; y++) {
         drawCell(ctx,`${x} ${y}`,false);
       }
     }
@@ -154,7 +164,7 @@ function App() {
       ctx.fillStyle = "green";
       ctx.fillRect((x * scaleFactor) + 11,(y * scaleFactor) + 11,18,18);
     } else {
-      ctx.fillStyle = "white";
+      ctx.fillStyle = "lightgrey";
       ctx.fillRect((x * scaleFactor) + 11,(y * scaleFactor) + 11,18,18);
     }
   }
@@ -162,11 +172,23 @@ function App() {
   return (
     <div className="MainContainer">
       <canvas height="840" width="1040" ref={canvasRef}></canvas>
-      <div className="ControlContainer">
-        <Button onClick = {nextGeneration}>Next</Button>
-        <Button onClick = {toggleDrawing}>Toggle</Button>
-        <Button onClick = {resetBoard}>Reset</Button>
-        <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect} currPreset={presetName}></PresetDropdown>
+      <div className="RightContainer">
+        <h1>
+          <div>Conway's</div>
+          <div>Game of Life</div>
+        </h1>
+        <div>
+          <div className="ControlContainer">
+            <Button size="lg" onClick = {nextGeneration}>Next</Button>
+            <Button size="lg" onClick = {toggleDrawing}>{playButton}</Button>
+            <Button size="lg" onClick = {clearBoard}>Clear</Button>
+          </div>
+          <div className="Separator"></div>
+          <div className="PresetController">
+            <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect} currPreset={presetName}></PresetDropdown>
+            <Button size="lg" onClick = {resetBoard}>Reset</Button>
+          </div>
+        </div>
       </div>
     </div>
   )
