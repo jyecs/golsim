@@ -14,8 +14,10 @@ Done'd:
 - (Less) Presets for some special starting cell arangments
 - Add clicking the canvas can add cells to the canvas.
 - Connect presets to a drop down list.
+- Drag to be able to move the grid.
 
 WIP:
+- While dragging and the game is running both work at the same time.
 - Stylize game (Just write some basic CSS)
 - Make the canvas drawing less hacky (There is a lot of stuff that I think is going on that really shouldn't be).
 - Optimize GoL Algo (Maybe use a real one, or clean up the one that I made)
