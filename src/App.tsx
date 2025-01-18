@@ -61,13 +61,14 @@ function App() {
     drawBoard(ctx);
   }, [offset])
 
-  const handleClick = (event, ctx: CanvasRenderingContext2D) => {
+  const handleClick = (event) => {
     const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
     const rect = canvas.getBoundingClientRect();
     let x = (event.clientX - rect.left);
     let y = (event.clientY - rect.top);
-    x = Math.floor((x + offset.x) / 20);
-    y = Math.floor((y + offset.y) / 20);
+    x = Math.floor((x - offset.x) / 20);
+    y = Math.floor((y - offset.y) / 20);
     handleClickToPoint(x,y,ctx);
   }
 
@@ -92,10 +93,14 @@ function App() {
   const handleMouseDown = (e: React.MouseEvent) => {
     setDragging(true);
     setLastMousePosition({x: e.clientX, y: e.clientY});
+    setMovedDuringDrag(false);
   }
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e: React.MouseEvent) => {
     setDragging(false);
+    if (!movedDuringDrag) {
+      handleClick(e);
+    }
     setLastMousePosition(null);
   }
 
@@ -103,6 +108,8 @@ function App() {
     if (dragging && lastMousePosition) {
       const deltaX = e.clientX - lastMousePosition.x;
       const deltaY = e.clientY - lastMousePosition.y;
+
+      if(Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) { setMovedDuringDrag(true); }
 
       setOffset((prev) => ({
         x: prev.x + deltaX,
@@ -175,14 +182,6 @@ function App() {
     setPlayButton("Start");
   }
 
-  const resetCells = () => {
-    for (let x = 0; x < 51; x++) {
-      for (let y = 0; y < 41; y++) {
-        drawCell(ctx,`${x} ${y}`,false);
-      }
-    }
-  }
-
   // Make sure that this is change later such that the cells draw okay.
   const drawCell = (ctx: CanvasRenderingContext2D, cell: String, type: Boolean) => {
     const coords = cell.split(" ");
@@ -202,7 +201,7 @@ function App() {
   return (
     <div className="MainContainer">
       <canvas height="840" width="1040" ref={canvasRef} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove}
-       onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}></canvas>
+       onMouseUp={handleMouseUp}></canvas>
       <div className="RightContainer">
         <h1>
           <div>Conway's</div>
