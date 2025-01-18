@@ -21,11 +21,32 @@ function App() {
   const [dragging, setDragging] = useState(false);
   const [lastMousePosition, setLastMousePosition] = useState<{x: number; y: number} | null>(null);
   const [movedDuringDrag, setMovedDuringDrag] = useState(false);
+  const animationFrameRef = useRef<number | null>(null);
+  const lastUpdateTime = useRef(0);
 
-  const nextGeneration = () => {
-    gameOfLife.next();
+  const nextGeneration = (timestamp: number) => {
+    if (isRunning) {
+      const timeTillLastAnimation = timestamp - lastUpdateTime.current;
+      if (timeTillLastAnimation >= 100) {
+        gameOfLife.next();
+        lastUpdateTime.current = timestamp;
+        setNumGenerations((prev) => prev + 1);
+      }
+    }
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    drawBoard(ctx);
+
+    animationFrameRef.current = requestAnimationFrame(nextGeneration);
+  }
+
+  const oneNextGeneration = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
     setNumGenerations((prev) => prev + 1);
-    let ctx = canvasRef.current.getContext("2d");
+
+    gameOfLife.next();
     drawBoard(ctx);
   }
 
@@ -44,22 +65,22 @@ function App() {
 
   },[]);
 
-  useEffect(()=> {
-    let drawing = null;
-    if (isRunning) {
-      drawing = setInterval(nextGeneration, 100);
-    }
-    return () => {
-      clearInterval(drawing)
-    }
-
-  },[isRunning])
-
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    if (isRunning) {
+      animationFrameRef.current = requestAnimationFrame(nextGeneration);
+    } else if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+    const ctx = canvasRef.current.getContext("2d");
     drawBoard(ctx);
-  }, [offset])
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    }
+  }, [offset, isRunning])
 
   const handleClick = (event) => {
     const canvas = canvasRef.current;
@@ -122,7 +143,7 @@ function App() {
 
   const toggleDrawing = ()=> {
     (playButton === "Start") ? setPlayButton("Pause") : setPlayButton("Start")
-    setIsRunning(!isRunning);
+    setIsRunning((prev) => !prev);
   }
 
   const drawBoard = (ctx: CanvasRenderingContext2D) => {
@@ -209,7 +230,7 @@ function App() {
         </h1>
         <div>
           <div className="ControlContainer">
-            <Button size="lg" onClick = {nextGeneration}>Next</Button>
+            <Button size="lg" onClick = {oneNextGeneration}>Next</Button>
             <Button size="lg" onClick = {toggleDrawing}>{playButton}</Button>
             <Button size="lg" onClick = {clearBoard}>Clear</Button>
           </div>
