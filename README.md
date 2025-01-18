@@ -1,8 +1,8 @@
 # Game of Life Simulator
-Console version only Game of Life working.
-Canvas grid semi-functional.
 
 Done'd:
+- Console version only Game of Life working.
+- Canvas grid semi-functional.
 - reduce blurriness of lines of the canvas (suspected culprit is that the canvas dimensions are being scaled to fit something)
 - make cells line up with with canvas better.
 - connect renderer to the game.
@@ -19,6 +19,7 @@ Done'd:
 
 WIP:
 - (Major) Stylize game (Just write some basic CSS)
+- Refactor some of the truely horrifying code (change some useStates to useRef instead)
 - Add animation speed slider so you can control how fast things happen
 - Make the canvas drawing less hacky (There is a lot of stuff that I think is going on that really shouldn't be).
 - Optimize GoL Algo (Maybe use a real one, or clean up the one that I made)
