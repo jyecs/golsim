@@ -24,6 +24,8 @@ function App() {
   const animationFrameRef = useRef<number | null>(null);
   const lastUpdateTime = useRef(0);
 
+  // Responsible for actually driving the requestAnimationFrame function
+  // TODO: Make it such that you can change how fast you can animate.
   const nextGeneration = (timestamp: number) => {
     if (isRunning) {
       const timeTillLastAnimation = timestamp - lastUpdateTime.current;
@@ -41,6 +43,7 @@ function App() {
     animationFrameRef.current = requestAnimationFrame(nextGeneration);
   }
 
+  // Advances the generation one time
   const oneNextGeneration = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -50,7 +53,7 @@ function App() {
     drawBoard(ctx);
   }
 
-
+  // On first load, makes sure all the variables are set right.
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -65,6 +68,8 @@ function App() {
 
   },[]);
 
+  // Gives the canvas the ability to auto-draw
+  // Tries to make sure that there are no animationframe objects left to lag grid.
   useEffect(() => {
     if (isRunning) {
       animationFrameRef.current = requestAnimationFrame(nextGeneration);
@@ -82,6 +87,8 @@ function App() {
     }
   }, [offset, isRunning])
 
+  // Figure out where the cell coordinates are relative to the offset.
+  // Converts coordinates on grid to cell coordinates
   const handleClick = (event) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -93,6 +100,7 @@ function App() {
     handleClickToPoint(x,y,ctx);
   }
 
+  // Add / Remove the cell to the game of life DS.
   const handleClickToPoint = (x:number, y:number, ctx: CanvasRenderingContext2D) => {
     const cell = new Point(x,y);
     const coords = cell.toStringKey();
@@ -105,18 +113,22 @@ function App() {
     }
   }
 
+  // Use preset selected from the dropdown.
   const handleDropdownSelect = (preset: string) => {
     setPresetName(preset);
     presetGetter.setCurrentPreset(preset);
     resetBoard();
   }
 
+  // Start offset calculation.
   const handleMouseDown = (e: React.MouseEvent) => {
     setDragging(true);
     setLastMousePosition({x: e.clientX, y: e.clientY});
     setMovedDuringDrag(false);
   }
 
+  // If mouse was not dragged, treat it as if it was a click.
+  // Reset a variable used to calculate drag distance
   const handleMouseUp = (e: React.MouseEvent) => {
     setDragging(false);
     if (!movedDuringDrag) {
@@ -125,6 +137,7 @@ function App() {
     setLastMousePosition(null);
   }
 
+  // Calculates the drag distance so we know how much to change the offset.
   const handleMouseMove = (e: React.MouseEvent) => {
     if (dragging && lastMousePosition) {
       const deltaX = e.clientX - lastMousePosition.x;
@@ -141,11 +154,13 @@ function App() {
     }
   }
 
+  // Switches between auto-drawing or not drawing.
   const toggleDrawing = ()=> {
     (playButton === "Start") ? setPlayButton("Pause") : setPlayButton("Start")
     setIsRunning((prev) => !prev);
   }
 
+  // Draws the board (calls grid and cell)
   const drawBoard = (ctx: CanvasRenderingContext2D) => {
     const cells = gameOfLife.getCells();
 
@@ -155,8 +170,7 @@ function App() {
     })
   }
 
-
-  // 1000,800 grid
+  // Draws the grid
   const drawGrid = (ctx: CanvasRenderingContext2D, offsetX: number, offsetY: number) => {
     const height = ctx.canvas.height;
     const width = ctx.canvas.width;
@@ -185,7 +199,7 @@ function App() {
     }
   }
 
-  // debug this;
+  // Resets the entire board, moves everything back to center.
   const resetBoard = () => {
     setOffset({x:0,y:0})
     setNumGenerations(0);
@@ -196,14 +210,18 @@ function App() {
     drawBoard(ctx);
   }
 
+  // Entirely clears the board, and removes all cells from the game.
   const clearBoard = () => {
+    setOffset({x:0, y:0});
     setNumGenerations(0);
     gameOfLife.clear();
     setIsRunning(false);
     setPlayButton("Start");
+    drawBoard(ctx);
   }
 
-  // Make sure that this is change later such that the cells draw okay.
+  // Draws a cell,
+  // TODO: Change gridSize to be an actual useState variable.
   const drawCell = (ctx: CanvasRenderingContext2D, cell: String, type: Boolean) => {
     const coords = cell.split(" ");
     const gridSize = 20
