@@ -38,7 +38,8 @@ function Gol() {
         neighbors.forEach((point: Array<Number>) => {
             const cell = `${point[0]} ${point[1]}`
             if (gen.has(cell)) {
-                gen.set(cell, gen.get(cell) + 1);
+                const val = gen.get(cell);
+                if (val) { gen.set(cell, val + 1); }            
             } else {
                 gen.set(cell, 1);
             }

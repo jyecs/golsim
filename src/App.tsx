@@ -10,8 +10,8 @@ import Button from 'react-bootstrap/Button'
 
 function App() {
   const [gameOfLife, setGameOfLife] = useState(gol());
-  const [ctx, setCtx] = useState(null);
-  const canvasRef = useRef(null);
+  const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [presetGetter, setPresetGetter] = useState(preset());
   const [presetName, setPresetName] = useState<string>("Presets")
@@ -37,8 +37,8 @@ function App() {
     }
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    drawBoard(ctx);
+    const ctx = canvas!.getContext("2d");
+    drawBoard(ctx!);
 
     animationFrameRef.current = requestAnimationFrame(nextGeneration);
   }
@@ -46,24 +46,24 @@ function App() {
   // Advances the generation one time
   const oneNextGeneration = () => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas!.getContext("2d");
     setNumGenerations((prev) => prev + 1);
 
     gameOfLife.next();
-    drawBoard(ctx);
+    drawBoard(ctx!);
   }
 
   // On first load, makes sure all the variables are set right.
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    setCtx(ctx);
-    const width = canvas.width;
-    const height = canvas.height;
-    canvas.width = width;
-    canvas.height = height;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
+    const ctx = canvas!.getContext("2d");
+    setCtx(ctx!);
+    const width = canvas!.width;
+    const height = canvas!.height;
+    canvas!.width = width;
+    canvas!.height = height;
+    canvas!.style.width = `${width}px`;
+    canvas!.style.height = `${height}px`;
     gameOfLife.preLoadPoints(presetGetter.getCurrentPreset());
 
   },[]);
@@ -77,8 +77,8 @@ function App() {
       cancelAnimationFrame(animationFrameRef.current);
       animationFrameRef.current = null;
     }
-    const ctx = canvasRef.current.getContext("2d");
-    drawBoard(ctx);
+    const ctx = canvasRef.current!.getContext("2d");
+    drawBoard(ctx!);
 
     return () => {
       if (animationFrameRef.current) {
@@ -89,15 +89,15 @@ function App() {
 
   // Figure out where the cell coordinates are relative to the offset.
   // Converts coordinates on grid to cell coordinates
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent) => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas!.getContext("2d");
+    const rect = canvas!.getBoundingClientRect();
     let x = (event.clientX - rect.left);
     let y = (event.clientY - rect.top);
     x = Math.floor((x - offset.x) / 20);
     y = Math.floor((y - offset.y) / 20);
-    handleClickToPoint(x,y,ctx);
+    handleClickToPoint(x,y,ctx!);
   }
 
   // Add / Remove the cell to the game of life DS.
@@ -207,7 +207,7 @@ function App() {
     gameOfLife.clear();
     gameOfLife.preLoadPoints(presetGetter.getCurrentPreset());
     setPlayButton("Start");
-    drawBoard(ctx);
+    drawBoard(ctx!);
   }
 
   // Entirely clears the board, and removes all cells from the game.
@@ -217,7 +217,7 @@ function App() {
     gameOfLife.clear();
     setIsRunning(false);
     setPlayButton("Start");
-    drawBoard(ctx);
+    drawBoard(ctx!);
   }
 
   // Draws a cell,

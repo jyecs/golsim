@@ -5,7 +5,7 @@ function preset() {
     const shiftX = 20;
     const shiftY = 20;
     const presetNames = ["Acorn","R-pentomino","Diehard", "Still-lifes", "Oscillators"];
-    const presets = {
+    const presets: {[key: string]: number[][]} = {
         "Acorn": [
             [0,0],
             [1,0],
