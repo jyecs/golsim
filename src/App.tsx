@@ -248,7 +248,7 @@ function App() {
         </h1>
         <div>
           <div className="ControlContainer">
-            <Button size="lg" onClick = {gameOfLife.printCells}>Next</Button>
+            <Button size="lg" onClick = {oneNextGeneration}>Next</Button>
             <Button size="lg" onClick = {toggleDrawing}>{playButton}</Button>
             <Button size="lg" onClick = {clearBoard}>Clear</Button>
           </div>
