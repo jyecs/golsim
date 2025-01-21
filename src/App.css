@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  background-color: lightcoral;
+  background-color: lightblue;
   margin: 0;
 }
 
@@ -25,13 +25,15 @@ body {
 }
 
 .RightContainer {
-  display:flex;
+  display: flex;
   flex-direction: column;
   padding: 20px 20px 20px 20px;
-  background-color: lightblue;
+  background-color: lightgray;
   border-radius: 10px;
   height: 100%;
   margin-left: 50px;
+  border-style: solid;
+  border-color: black;
 }
 
 .PresetController {
@@ -40,7 +42,7 @@ body {
   justify-content: space-evenly;
 }
 
-.RightContainer > div > div > * {
+.RightContainer>div>div>* {
   margin: 10px 10px 10px 10px;
 }
 
@@ -57,19 +59,22 @@ body {
 
 canvas {
   background-color: lightgray;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10px;
 }
 
 h1 {
   font-family: fantasy;
 }
 
-h1 > div:nth-child(1) {
+h1>div:nth-child(1) {
   font-size: 50px;
   font-style: oblique;
   font-weight: bold;
 }
 
-h1 > div:nth-child(2) {
+h1>div:nth-child(2) {
   font-family: "Press Start 2P", serif;
   font-weight: 100;
 }
