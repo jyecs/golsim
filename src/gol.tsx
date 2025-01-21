@@ -83,7 +83,19 @@ function Gol() {
 
     const getCells = () => { return livingCells };
 
-    return {next, getCells, preLoadPoints, clear, addPoint, deletePoint};
+    const printCells = () => {
+        let cells = ""
+        livingCells.forEach((cell) => {
+            const coords = cell.split(" ");
+            const x = Number.parseInt(coords[0]) - 20;
+            const y = Number.parseInt(coords[1]) - 20;
+
+            cells += `[${x},${y}],`
+        })
+        console.log(`[${cells}]`);
+    }
+
+    return {next, getCells, preLoadPoints, clear, addPoint, deletePoint, printCells};
 
 };
 export default Gol

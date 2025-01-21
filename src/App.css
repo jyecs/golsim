@@ -78,3 +78,7 @@ h1>div:nth-child(2) {
   font-family: "Press Start 2P", serif;
   font-weight: 100;
 }
+
+.Generations {
+  font-size: 25px;
+}

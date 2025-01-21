@@ -248,16 +248,15 @@ function App() {
         </h1>
         <div>
           <div className="ControlContainer">
-            <Button size="lg" onClick = {oneNextGeneration}>Next</Button>
+            <Button size="lg" onClick = {gameOfLife.printCells}>Next</Button>
             <Button size="lg" onClick = {toggleDrawing}>{playButton}</Button>
             <Button size="lg" onClick = {clearBoard}>Clear</Button>
           </div>
-          <div className="Separator"></div>
           <div className="PresetController">
             <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect} currPreset={presetName}></PresetDropdown>
             <Button size="lg" onClick = {resetBoard}>Reset</Button>
           </div>
-          <div>Generations: {numGenerations}</div>
+          <div className="Generations">Generations: {numGenerations}</div>
         </div>
       </div>
     </div>
