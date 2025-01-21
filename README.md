@@ -16,10 +16,10 @@ Done'd:
 - Connect presets to a drop down list.
 - Drag to be able to move the grid.
 - While dragging and the game is running both work at the same time.
+- (Major) Stylize game (Just write some basic CSS)
+- Make the canvas drawing less hacky (There is a lot of stuff that I think is going on that really shouldn't be).
 
 WIP:
-- (Major) Stylize game (Just write some basic CSS)
 - Refactor some of the truely horrifying code (change some useStates to useRef instead)
 - Add animation speed slider so you can control how fast things happen
-- Make the canvas drawing less hacky (There is a lot of stuff that I think is going on that really shouldn't be).
 - Optimize GoL Algo (Maybe use a real one, or clean up the one that I made)
