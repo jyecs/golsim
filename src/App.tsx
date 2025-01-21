@@ -9,11 +9,11 @@ import './App.css'
 import Button from 'react-bootstrap/Button'
 
 function App() {
-  const [gameOfLife, setGameOfLife] = useState(gol());
+  const gameOfLife = useRef(gol());
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isRunning, setIsRunning] = useState(false);
-  const [presetGetter, setPresetGetter] = useState(preset());
+  const presetGetter = useRef(preset());
   const [presetName, setPresetName] = useState<string>("Presets")
   const [playButton, setPlayButton] = useState<string>("Start");
   const [numGenerations, setNumGenerations] = useState<number>(0);
@@ -30,7 +30,7 @@ function App() {
     if (isRunning) {
       const timeTillLastAnimation = timestamp - lastUpdateTime.current;
       if (timeTillLastAnimation >= 100) {
-        gameOfLife.next();
+        gameOfLife.current.next();
         lastUpdateTime.current = timestamp;
         setNumGenerations((prev) => prev + 1);
       }
@@ -49,7 +49,7 @@ function App() {
     const ctx = canvas!.getContext("2d");
     setNumGenerations((prev) => prev + 1);
 
-    gameOfLife.next();
+    gameOfLife.current.next();
     drawBoard(ctx!);
   }
 
@@ -64,7 +64,7 @@ function App() {
     canvas!.height = height;
     canvas!.style.width = `${width}px`;
     canvas!.style.height = `${height}px`;
-    gameOfLife.preLoadPoints(presetGetter.getCurrentPreset());
+    gameOfLife.current.preLoadPoints(presetGetter.current.getCurrentPreset());
 
   },[]);
 
@@ -104,11 +104,11 @@ function App() {
   const handleClickToPoint = (x:number, y:number, ctx: CanvasRenderingContext2D) => {
     const cell = new Point(x,y);
     const coords = cell.toStringKey();
-    if (gameOfLife.getCells().has(coords)) {
-      gameOfLife.deletePoint(cell);
+    if (gameOfLife.current.getCells().has(coords)) {
+      gameOfLife.current.deletePoint(cell);
       drawCell(ctx, coords, false);
     } else {
-      gameOfLife.addPoint(cell);
+      gameOfLife.current.addPoint(cell);
       drawCell(ctx, coords, true);
     }
   }
@@ -116,7 +116,7 @@ function App() {
   // Use preset selected from the dropdown.
   const handleDropdownSelect = (preset: string) => {
     setPresetName(preset);
-    presetGetter.setCurrentPreset(preset);
+    presetGetter.current.setCurrentPreset(preset);
     resetBoard();
   }
 
@@ -162,7 +162,7 @@ function App() {
 
   // Draws the board (calls grid and cell)
   const drawBoard = (ctx: CanvasRenderingContext2D) => {
-    const cells = gameOfLife.getCells();
+    const cells = gameOfLife.current.getCells();
 
     drawGrid(ctx, offset.x, offset.y);
     cells.forEach((cell: string) => {
@@ -204,8 +204,8 @@ function App() {
     setOffset({x:0,y:0})
     setNumGenerations(0);
     setIsRunning(false);
-    gameOfLife.clear();
-    gameOfLife.preLoadPoints(presetGetter.getCurrentPreset());
+    gameOfLife.current.clear();
+    gameOfLife.current.preLoadPoints(presetGetter.current.getCurrentPreset());
     setPlayButton("Start");
     drawBoard(ctx!);
   }
@@ -214,7 +214,7 @@ function App() {
   const clearBoard = () => {
     setOffset({x:0, y:0});
     setNumGenerations(0);
-    gameOfLife.clear();
+    gameOfLife.current.clear();
     setIsRunning(false);
     setPlayButton("Start");
     drawBoard(ctx!);
@@ -253,7 +253,7 @@ function App() {
             <Button size="lg" onClick = {clearBoard}>Clear</Button>
           </div>
           <div className="PresetController">
-            <PresetDropdown presets={presetGetter.listPrests()} onSelect={handleDropdownSelect} currPreset={presetName}></PresetDropdown>
+            <PresetDropdown presets={presetGetter.current.listPrests()} onSelect={handleDropdownSelect} currPreset={presetName}></PresetDropdown>
             <Button size="lg" onClick = {resetBoard}>Reset</Button>
           </div>
           <div className="Generations">Generations: {numGenerations}</div>
